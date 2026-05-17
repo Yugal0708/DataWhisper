@@ -1,6 +1,6 @@
 import base64
 from io import BytesIO
-import plotly.io as pio
+
 
 def _fig_to_base64(fig):
     if fig is None:
