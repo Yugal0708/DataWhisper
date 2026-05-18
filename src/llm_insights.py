@@ -60,17 +60,9 @@ def generate_insights(df_summary, column_names, dtypes, missing_values, correlat
             "missing_values": missing_values,
             "correlations": correlations
         })
-        
-        result = response.content
-        # FIX: Check if the AI returned an empty response
-        if not result or not result.strip():
-            return "⚠️ AI is currently busy and returned an empty response. Please try again in a moment."
-            
-        return result
+        return response.content
     except Exception as e:
-        # FIX: Provide a user-friendly error message
-        return f"⚠️ AI Error: Could not connect to the AI server. (Details: {str(e)})"
-
+        return f"AI Error: {str(e)}"
 
 # NEW FEATURE: Auto-generated executive summary
 def generate_auto_summary(df_info_str):
@@ -92,17 +84,9 @@ def generate_auto_summary(df_info_str):
     chain = prompt | llm
     try:
         response = chain.invoke({"info": df_info_str})
-        
-        result = response.content
-        # FIX: Check for empty response
-        if not result or not result.strip():
-            return "⚠️ AI is currently busy and returned an empty response. Please try again."
-            
-        return result
+        return response.content
     except Exception as e:
-        # FIX: Provide a user-friendly error message
-        return f"⚠️ Error generating summary: Could not connect to the AI server. (Details: {str(e)})"
-
+        return f"Error generating summary: {str(e)}"
 
 def explain_chart(chart_info, data_context=None):
     """
@@ -133,13 +117,6 @@ def explain_chart(chart_info, data_context=None):
             "columns": chart_info['columns'],
             "context": context_str
         })
-        
-        result = response.content
-        # FIX: Check for empty response
-        if not result or not result.strip():
-            return "⚠️ AI is currently busy and returned an empty response. Please try again."
-            
-        return result
+        return response.content
     except Exception as e:
-        # FIX: Provide a user-friendly error message
-        return f"⚠️ Could not explain chart: AI server issue. (Details: {str(e)})"
+        return f"Could not explain chart: {str(e)}"
