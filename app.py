@@ -127,12 +127,25 @@ def main():
         
         with col2:
             render_info_box("Instructions", "Upload a CSV file with headers. Ensure numeric columns are properly formatted for correlation analysis.")
-            if st.button("Load Sample Data (Titanic)", use_container_width=True):
-                st.session_state.uploaded_file = "sample_data/titanic.csv"
-                df = load_data("sample_data/titanic.csv")
-                st.session_state.df = df
-                st.session_state.current_step = 1
-                st.rerun()
+            SAMPLE_DATASETS = {
+    "🚢 Titanic — Survival Analysis": "sample_data/titanic.csv",
+    "🌸 Iris — Flower Classification": "sample_data/iris.csv",
+    "💰 Tips — Restaurant Tipping Patterns": "sample_data/tips.csv",
+    "🚗 Cars — Fuel Efficiency Data": "sample_data/cars.csv",
+}
+
+selected_sample = st.selectbox(
+    "Choose a sample dataset:",
+    options=list(SAMPLE_DATASETS.keys()),
+)
+
+if st.button("Load Sample Data", use_container_width=True):
+    sample_path = SAMPLE_DATASETS[selected_sample]
+    st.session_state.uploaded_file = sample_path
+    df = load_data(sample_path)
+    st.session_state.df = df
+    st.session_state.current_step = 1
+    st.rerun()
 
     # If no data is loaded, stop here
     if st.session_state.df is None and st.session_state.current_step > 0:
